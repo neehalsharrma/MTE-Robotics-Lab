@@ -123,7 +123,7 @@ def main():
     
     ur5_vacuum_gripper = VacuumGripper()
     
-    s = rospy.Service('/eyrc/vb/ur5_1/activate_vacuum_gripper', vacuumGripper, ur5_vacuum_gripper.callback_service_on_request)
+    s = rospy.Service('/mte_roblab/ur5_1/activate_vacuum_gripper', vacuumGripper, ur5_vacuum_gripper.callback_service_on_request)
     rospy.loginfo( '\033[94m' + " >>> Vacuum Gripper Activation Service Ready." + '\033[0m')
     
     rospy.Subscriber(ur5_vacuum_gripper._logical_camera_topic_name, LogicalCameraImage, ur5_vacuum_gripper.callback_topic_subscription)

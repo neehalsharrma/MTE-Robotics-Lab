@@ -362,7 +362,7 @@
 
     <gazebo>
       <plugin name="ros_logical_camera" filename="libROSLogicalCameraPlugin.so">
-        <robotNamespace>/eyrc/vb/ur5_1/vacuum_gripper/logical_camera</robotNamespace>
+        <robotNamespace>/mte_roblab/ur5_1/vacuum_gripper/logical_camera</robotNamespace>
       </plugin>
     </gazebo>
 

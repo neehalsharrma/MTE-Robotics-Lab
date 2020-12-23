@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <sdf version="1.6">
-  <model name="logical_camera_1">
-    <plugin name="ros_logical_camera_1" filename="libROSLogicalCameraPlugin.so">
-      <robotNamespace>/eyrc/vb</robotNamespace>
+  <model name="logical_camera_2">
+    <plugin name="ros_logical_camera_2" filename="libROSLogicalCameraPlugin.so">
+      <robotNamespace>/mte_roblab</robotNamespace>
       <!-- <position_noise>
         <noise>
           <type>gaussian</type>
@@ -18,7 +18,7 @@
         </noise>
       </orientation_noise> -->
     </plugin>
-    <link name="logical_camera_1_link">
+    <link name="logical_camera_2_link">
       <gravity>false</gravity>
       <inertial>
         <mass>0.1</mass>
@@ -33,7 +33,7 @@
         <pose>0 0.02 0 0 0 -1.5708</pose>
         <geometry>
           <mesh>
-            <uri>model://logical_camera1/meshes/camera.dae</uri>
+            <uri>model://logical_camera2/meshes/camera.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -42,12 +42,12 @@
         <pose>0 0.02 0 0 0 -1.5708</pose>
         <geometry>
           <mesh>
-            <uri>model://logical_camera1/meshes/camera.dae</uri>
+            <uri>model://logical_camera2/meshes/camera.dae</uri>
           </mesh>
         </geometry>
       </visual>
 
-      <sensor name="logical_camera_1" type="logical_camera">
+      <sensor name="logical_camera_2" type="logical_camera">
 
         <logical_camera>
           <near>0.2</near>
@@ -59,7 +59,7 @@
         <visualize>true</visualize>
         <always_on>true</always_on>
         <update_rate>10</update_rate>
-        <topic>logical_camera_1</topic>
+        <topic>logical_camera_2</topic>
       </sensor>
     </link>
   </model>

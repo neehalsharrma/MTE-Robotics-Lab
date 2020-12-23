@@ -8,4 +8,4 @@ config_vacuum_gripper:
 
   attachable_object_prefix: "package"
   attachable_object_delimiter: "n"
-  logical_camera_topic_name: "/eyrc/vb/ur5_1/vacuum_gripper/logical_camera/ur5_1"
+  logical_camera_topic_name: "/mte_roblab/ur5_1/vacuum_gripper/logical_camera/ur5_1"

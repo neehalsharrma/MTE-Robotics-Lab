@@ -1,0 +1,12 @@
+arm_controller:
+  type: position_controllers/JointTrajectoryController
+  joints:
+     - ur5_elbow_joint 
+     - ur5_shoulder_lift_joint 
+     - ur5_shoulder_pan_joint 
+     - ur5_wrist_1_joint 
+     - ur5_wrist_2_joint 
+     - ur5_wrist_3_joint 
+  stop_trajectory_duration: 0.5
+  state_publish_rate:  25
+  action_monitor_rate: 10
