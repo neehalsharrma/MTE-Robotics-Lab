@@ -7,5 +7,5 @@ config_vacuum_gripper:
   attachable_object_link_name: "link"
 
   attachable_object_prefix: "package"
-  attachable_object_delimiter: "n"
+  attachable_object_delimiter: "_"
   logical_camera_topic_name: "/mte_roblab/ur5_1/vacuum_gripper/logical_camera/ur5_1"

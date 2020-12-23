@@ -1,7 +1,7 @@
 <launch>
   
   <!-- Launch UR5 in Gazebo -->
-  <include file = "$(find pkg_vb_sim)/launch/gazebo_ur5_1.launch" />
+  <include file = "$(find env_sim)/launch/gazebo_ur5_1.launch" />
 
   <!-- Launch Moveit Group Node -->
   <include file = "$(find pkg_moveit_ur5_1)/launch/move_group.launch" /> 

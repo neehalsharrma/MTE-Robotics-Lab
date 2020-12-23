@@ -5,8 +5,8 @@
   <description>
      An automatically generated package with all the configuration and launch files for using the ur5 with the MoveIt! Motion Planning Framework
   </description>
-  <author email="eyrc.vb.1202@gmail.com">VB#1202</author>
-  <maintainer email="eyrc.vb.1202@gmail.com">VB#1202</maintainer>
+  <author email="eyrc.vb.1202@gmail.com">eYRC-VB#1202</author>
+  <maintainer email="eyrc.vb.1202@gmail.com">eYRC-VB#1202</maintainer>
 
   <license>BSD</license>
 
@@ -28,7 +28,7 @@
   <run_depend>xacro</run_depend>
   <!-- This package is referenced in the warehouse launch files, but does not build out of the box at the moment. Commented the dependency until this works. -->
   <!-- <run_depend>warehouse_ros_mongo</run_depend> -->
-    <run_depend>pkg_vb_sim</run_depend>
+    <run_depend>env_sim</run_depend>
 
 
 </package>

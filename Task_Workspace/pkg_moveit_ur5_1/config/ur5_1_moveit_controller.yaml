@@ -1,3 +1,5 @@
+# Controller to attach Gazebo Controller to Moveit! to allow Moveit! to control UR5 in Gazebo.
+
 controller_manager_ns: /
 controller_list:
   - name: ur5_1_controller

@@ -1,6 +1,6 @@
 moveit_setup_assistant_config:
   URDF:
-    package: pkg_vb_sim
+    package: env_sim
     relative_path: urdf/ur5_1.urdf
     xacro_args: ""
   SRDF:

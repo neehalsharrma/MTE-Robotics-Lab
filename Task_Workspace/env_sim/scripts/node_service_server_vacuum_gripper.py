@@ -3,11 +3,11 @@
 import rospy
 from gazebo_ros_link_attacher.srv import Attach, AttachRequest, AttachResponse
 
-from pkg_vb_sim.srv import vacuumGripper
-from pkg_vb_sim.srv import vacuumGripperRequest
-from pkg_vb_sim.srv import vacuumGripperResponse
+from env_sim.srv import vacuumGripper
+from env_sim.srv import vacuumGripperRequest
+from env_sim.srv import vacuumGripperResponse
 
-from pkg_vb_sim.msg import LogicalCameraImage
+from env_sim.msg import LogicalCameraImage
 
 
 class VacuumGripper():
@@ -94,7 +94,7 @@ class VacuumGripper():
             name_model = rx_msg.models[i].type
             
             lst_name_model = name_model.split(self._attachable_object_delimiter)
-            
+
             if(lst_name_model[0] == self._attachable_object_prefix):
                 rospy.loginfo( '\033[94m' + " >>> Vacuum Gripper: Pickable object found {}".format(name_model) + '\033[0m')
                 
