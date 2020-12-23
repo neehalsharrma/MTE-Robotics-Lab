@@ -16,6 +16,68 @@
       <pose>-0.8 0 2.0 0 1.5708 0</pose>
     </include> 
 
+    <model name="package_box_r1">
+      <include>
+        <uri>model://package_box_red</uri>
+        <pose>-0.6 0 1.5 0 1.5708 0</pose>
+        <static>false</static>
+        <material>Gazebo/Red</material>
+      </include>
+    </model>
+
+    <model name="package_box_r2">
+      <include>
+        <uri>model://package_box_red</uri>
+        <pose>-1.0 -0.4 1.5 0 1.5708 0</pose>
+        <static>false</static>
+        <material>Gazebo/Red</material>
+      </include>
+    </model>
+
+    <model name="package_box_g1">
+      <include>
+        <uri>model://package_box_green</uri>
+        <pose>-0.6 0.4 1.5 0 1.5708 0</pose>
+        <static>false</static>
+        <material>Gazebo/Red</material>
+      </include>
+    </model>
+
+    <model name="package_box_g2">
+      <include>
+        <uri>model://package_box_green</uri>
+        <pose>-1.0 0 1.5 0 1.5708 0</pose>
+        <static>false</static>
+        <material>Gazebo/Red</material>
+      </include>
+    </model>
+
+    <model name="package_box_b1">
+      <include>
+        <uri>model://package_box_blue</uri>
+        <pose>-0.6 -0.4 1.5 0 1.5708 0</pose>
+        <static>false</static>
+        <material>Gazebo/Red</material>
+      </include>
+    </model>
+
+    <model name="package_box_b2">
+      <include>
+        <uri>model://package_box_blue</uri>
+        <pose>-1.0 0.4 1.5 0 1.5708 0</pose>
+        <static>false</static>
+        <material>Gazebo/Red</material>
+      </include>
+    </model>
+
+    <model name="table">
+      <include>
+        <uri>model://table</uri>
+        <pose>-0.8 0 0 0 0 1.5708</pose>
+        <static>true</static>
+      </include>
+    </model>
+
     <model name="sorting_bin_red_">
       <include>
         <uri>model://sorting_bin_red_</uri>
