@@ -1,0 +1,49 @@
+<launch>
+  
+  <!-- Add Models PATH for Gazebo -->
+  <env name="GAZEBO_MODEL_PATH" value="$(find pkg_vb_sim)/models"/>
+
+  <!-- Arguments -->
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="rviz" default = "false"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+  <arg name="extra_gazebo_args" default="--verbose"/>
+
+  <!-- Gazebo with World File -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find pkg_vb_sim)/worlds/task2.world"/>
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="headless" value="$(arg headless)"/>
+    <arg name="extra_gazebo_args" value="$(arg extra_gazebo_args)"/>
+  </include>
+
+
+  <rosparam file ="$(find pkg_vb_sim)/config/config_vacuum_gripper.yaml"/>
+
+  <!-- Spawn Boxes -->
+  <node name= "spawn_models" pkg= "pkg_vb_sim" type="spawn_models.py"/>
+
+  <!-- Load Robot Description in Parameter Server -->
+  <param name="robot_description" textfile="$(find pkg_vb_sim)/urdf/ur5_1.urdf"/>
+
+  <!-- Spawn URDF in Gazebo -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-x 0.04 -y 0.76 -z 0.05 -Y 3.14 -param robot_description -urdf -model ur5 -J ur5_shoulder_pan_joint 0.0 -J ur5_shoulder_lift_joint 0.0 -J ur5_elbow_joint 0.0 -J ur5_wrist_1_joint 0.0 -J ur5_wrist_2_joint 0.0 -J ur5_wrist_3_joint 0.0" />
+
+  <!-- Vacuum Gripper Node -->
+  <node name= "node_service_server_vacuum_gripper" pkg= "pkg_vb_sim" type="node_service_server_vacuum_gripper.py" output="screen"/>
+
+  <!-- Launch the Controller for the Robot in Gazebo -->
+<!--   <rosparam file ="$(find pkg_pick_place_moveit)/config/my_config/my_gazebo_controllers.yaml"/> -->
+    
+<!--   <node name= "controller_spawner" pkg= "controller_manager" type="spawner" args="arm_controller"/> -->
+
+  <!-- Robot State Publisher for TF of each joint: publishes all the current states of the joint, then RViz can visualize -->
+  <!-- <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/> -->
+
+</launch>

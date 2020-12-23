@@ -1,0 +1,26 @@
+<launch>
+  
+  <!-- Load Robot Description in Parameter Server -->
+  <param name="robot_description" textfile="$(find pkg_vb_sim)/urdf/ur5_1.urdf"/>
+  
+  <!-- Load Gazebo with Empty World --> 
+  <include file="$(find gazebo_ros)/launch/empty_world.launch" />
+
+  <!-- Spawn URDF in Gazebo -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-x 0.0 -y 0.0 -z 0.0 -Y 3.14 -param robot_description -urdf -model ur5 -J ur5_shoulder_pan_joint 0.0 -J ur5_shoulder_lift_joint 0.0 -J ur5_elbow_joint 0.0 -J ur5_wrist_1_joint 0.0 -J ur5_wrist_2_joint 0.0 -J ur5_wrist_3_joint 0.0" />
+
+  <!-- Launch the Controller for the Robot in Gazebo -->
+  <rosparam file ="$(find pkg_vb_sim)/config/ur5/gazebo_controllers_ur5_1.yaml"/>
+    
+  <node name= "controller_spawner" pkg= "controller_manager" type="spawner" args="ur5_1_controller"/>
+
+  <!-- Robot State Publisher for TF of each joint: publishes all the current states of the joint, then RViz can visualize -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find pkg_vb_sim)/config/rviz/ur5_1.rviz"/>
+    
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+    <param name="use_gui" value="True"/>
+  </node>
+  
+</launch>

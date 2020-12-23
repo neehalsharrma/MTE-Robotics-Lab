@@ -1,0 +1,58 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <world name="default">
+    <!-- A gazebo links attacher -->
+    <plugin name="ros_link_attacher_plugin" filename="libgazebo_ros_link_attacher.so"/>
+
+    <gui>
+      <camera name="user_camera">
+        <!-- <pose>4.245393 -1.035982 5.548427 0 0.763643 2.588191</pose> -->
+        <pose>-3.21 1.20 5.36 0.15 2.05 -3.04</pose>
+        <!-- <pose>0 0 0 0 1.57 1.57</pose> -->
+      </camera>
+    </gui>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <!-- A ground plane -->
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <model name="bookshelf">
+        <include>
+          <static>true</static>
+          <uri>model://bookshelf</uri>
+          <pose> 0.503016 2.78612 0.939784 0 0 0 </pose>
+        </include>
+    </model>
+
+    <!-- <model name="yellow_bin">
+        <include>
+          <static>true</static>
+          <uri>model://yellow_bin</uri>
+          <pose> 0.025649 1.785395 0.988567 0 0 0 </pose>
+        </include>
+    </model> -->
+
+    <model name="pedestal_box_shelf">
+        <include>
+          <static>true</static>
+          <uri>model://pedestal_box</uri>
+          <pose> 0.520955 2.458810 0.468873 0 0 0 </pose>
+        </include>
+    </model>
+
+    <model name="pedestal_box_bin">
+        <include>
+          <static>true</static>
+          <uri>model://pedestal_box</uri>
+          <pose> -0.288666 1.423120 0.468875 0 0 0 </pose>
+        </include>
+    </model>
+
+    
+
+  </world>
+</sdf>

@@ -1,0 +1,13 @@
+<launch>
+    
+    <param name="robot_description" textfile="$(find pkg_vb_sim)/urdf/ur5_1.urdf"/>
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
+    
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find pkg_vb_sim)/config/rviz/ur5_1.rviz"/>
+    
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+        <param name="use_gui" value="True"/>
+    </node>
+
+</launch>
