@@ -8,7 +8,7 @@
   <arg name="arg_Y" default="0.00" />
 
   <!-- Load Robot Description in Parameter Server -->
-  <param name="robot_description" textfile="$(find pkg_vb_sim)/urdf/ur5_1.urdf"/>
+  <param name="robot_description" textfile="$(find env_sim)/urdf/ur5_1.urdf"/>
   
   <!-- Load Gazebo with Empty World --> 
   <!-- <include file="$(find gazebo_ros)/launch/empty_world.launch" /> -->
@@ -17,14 +17,14 @@
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-x $(arg arg_x) -y $(arg arg_y) -z $(arg arg_z) -Y $(arg arg_Y) -param robot_description -urdf -model ur5_1 -J ur5_shoulder_pan_joint 0.0 -J ur5_shoulder_lift_joint 0.0 -J ur5_elbow_joint 0.0 -J ur5_wrist_1_joint 0.0 -J ur5_wrist_2_joint 0.0 -J ur5_wrist_3_joint 0.0" />
 
   <!-- Launch the Controller for the Robot in Gazebo -->
-  <rosparam file ="$(find pkg_vb_sim)/config/ur5/gazebo_controllers_ur5_1.yaml"/>
+  <rosparam file ="$(find env_sim)/config/ur5/gazebo_controllers_ur5_1.yaml"/>
     
   <node name= "controller_spawner" pkg= "controller_manager" type="spawner" args="ur5_1_controller"/>
 
   <!-- Robot State Publisher for TF of each joint: publishes all the current states of the joint, then RViz can visualize -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
   
-  <rosparam file ="$(find pkg_vb_sim)/config/config_vacuum_gripper.yaml"/>
-  <node name= "node_service_server_vacuum_gripper" pkg= "pkg_vb_sim" type="node_service_server_vacuum_gripper.py" output="screen"/>
+  <rosparam file ="$(find env_sim)/config/config_vacuum_gripper.yaml"/>
+  <node name= "node_service_server_vacuum_gripper" pkg= "env_sim" type="node_service_server_vacuum_gripper.py" output="screen"/>
 
 </launch>

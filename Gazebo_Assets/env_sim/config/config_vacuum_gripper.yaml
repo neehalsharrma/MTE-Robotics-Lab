@@ -1,0 +1,11 @@
+# Vacuum Gripper Configuration
+config_vacuum_gripper:
+  vacuum_gripper_model_name: "ur5_1"
+  vacuum_gripper_link_name: "vacuum_gripper_link"
+  
+  # attachable_object_model_name: "package_mumbai"
+  attachable_object_link_name: "link"
+
+  attachable_object_prefix: "package"
+  attachable_object_delimiter: "n"
+  logical_camera_topic_name: "/eyrc/vb/ur5_1/vacuum_gripper/logical_camera/ur5_1"

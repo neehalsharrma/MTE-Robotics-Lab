@@ -1,0 +1,17 @@
+<launch>
+    <!-- Setting up the simulation -->
+
+    <!-- Spawn world objects -->
+    <include file="$(find env_sim)/launch/gazebo_task_world.launch" />
+
+    <!-- Spawn UR5 -->
+    <include file = "$(find env_sim)/launch/gazebo_ur5_spawn.launch" >
+        <arg name="arg_x" value="0.00" />
+        <arg name="arg_y" value="0.00" />
+        <arg name="arg_z" value="0.00" />
+        <arg name="arg_R" value="0.0" />
+        <arg name="arg_P" value="0.0" />
+        <arg name="arg_Y" value="0.0" />
+    </include>
+
+</launch>
