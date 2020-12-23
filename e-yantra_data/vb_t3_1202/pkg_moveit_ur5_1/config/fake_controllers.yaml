@@ -1,0 +1,12 @@
+controller_list:
+  - name: fake_ur5_1_planning_group_controller
+    joints:
+      - ur5_shoulder_pan_joint
+      - ur5_shoulder_lift_joint
+      - ur5_elbow_joint
+      - ur5_wrist_1_joint
+      - ur5_wrist_2_joint
+      - ur5_wrist_3_joint
+initial:  # Define initial robot poses.
+  - group: ur5_1_planning_group
+    pose: allZeros
