@@ -1,6 +1,7 @@
 # MTE-Robotics-Lab
 This repository is the codebase for the lab submission for the MTE Robotics Lab Mini-Project by Group 4.
 
+A video demonstrating the task can be found [on YouTube](https://www.youtube.com/watch?v=oqL3__f0exw).
 # Problem Statement
 Perform pick-and-place operation-based sorting of coloured boxes on a table into bins. A camera mounted above the table locates the boxes, and a UR5 Robotic Manipulator sorts the boxes by colour into their corresponding bins, located around the robot. Simulate this setup using ROS and any essential setups/libraries/functions as per requirement.
 # Methodology
@@ -29,6 +30,8 @@ The Gazebo world contains the following objects:
 * 3 bins, coloured red, blue and green respectively.
 
 The table also contains 6 boxes (2 red, 2 green, 2 blue) arranged randomly in front of the UR5. The boxes are individually spawned using a script to preserve their frames.
+
+![The Gazebo world made for the submission.](https://github.com/CH13F-1419/MTE-Robotics-Lab/blob/main/Media/Gazebo%20World.png)
 ### RViz Planning Scene
 The RViz Planning Scene contains the following objects:
 * A UR5 Robotic Manipulator mounted on a pedestal;
@@ -36,6 +39,8 @@ The RViz Planning Scene contains the following objects:
 * 6 objects representing the boxes as seen in the Gazebo world.
 
 The bins and logical camera were deemed non-essential to motion-planning requirements through observation, and have thus not been included.
+
+![The RViz planning scene made for the submission.](https://github.com/CH13F-1419/MTE-Robotics-Lab/blob/main/Media/RViz%20Planning%20Scene.png)
 ## Setting up TF
 TF ('TransForm') is the primary method for objects as detected through the logical camera to be visualised as frames and acted upon in and using RViz. The logical camera visualises the frames of the boxes in the RViz Planning Scene; this information can then be used to direct the UR5 to travel to the specified pose (the position of the specified box) for executing the pick operation.
 
@@ -43,6 +48,8 @@ The following process was implemented in this submission:
 * Use the Logical Camera to detect the boxes, extracting the list of the names of the models detected.
 * Determine which models contain `package` in their name, indicating that these models are the boxes to be picked.
 * Feed the colours, poses and orientations of the boxes one by one to the UR5, which will then perform the corresponding pick-place operation.
+
+![The TFs of the boxes as visualised in RViz.](https://github.com/CH13F-1419/MTE-Robotics-Lab/blob/main/Media/RViz%20TF%20Visualisation.png)
 ## ROS Scripting
 The ROS Scripting oversees the whole setup and manages the interconnectivity of the various communicating nodes in the setup. 
 
