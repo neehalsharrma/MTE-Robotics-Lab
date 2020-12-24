@@ -259,7 +259,7 @@ Visualization Manager:
       Velocity_Scaling_Factor: 1
     - Class: rviz/TF
       Enabled: true
-      Frame Timeout: 15
+      Frame Timeout: 1
       Frames:
         All Enabled: false
         Gripper_Base:
@@ -371,25 +371,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 3.8277485370635986
+      Distance: 3.544558048248291
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.16450291872024536
-        Y: -0.23442864418029785
-        Z: -7.301564437511843e-7
-      Focal Shape Fixed Size: true
+        X: -0.2416459321975708
+        Y: -0.25873374938964844
+        Z: 9.5367431640625e-7
+      Focal Shape Fixed Size: false
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.5397971272468567
+      Pitch: 0.6503983736038208
       Target Frame: world
       Value: XYOrbit (rviz)
-      Yaw: 2.1717653274536133
+      Yaw: 2.19539475440979
     Saved: ~
 Window Geometry:
   Displays:

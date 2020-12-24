@@ -50,15 +50,14 @@
       <sensor name="logical_camera_2" type="logical_camera">
 
         <logical_camera>
-          <near>0.2</near>
-          <far>1.0</far>
+          <near>0.9</near>
           <horizontal_fov>1.1</horizontal_fov>
           <aspect_ratio>2.0</aspect_ratio>
         </logical_camera>
 
         <visualize>true</visualize>
         <always_on>true</always_on>
-        <update_rate>100</update_rate>
+        <update_rate>10</update_rate>
         <topic>logical_camera_2</topic>
       </sensor>
     </link>

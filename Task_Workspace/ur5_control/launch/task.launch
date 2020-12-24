@@ -23,6 +23,6 @@
     <node name = "moveit_publish_scene_from_text" pkg= "moveit_ros_planning" type = "moveit_publish_scene_from_text" args= "$(arg scene_file)"/>
 
     <!-- Run pick-place node -->
-    <!-- <node name= "node_ur5_sorter" pkg= "pkg_task3" type="ur5_sorter.py" output="screen"/> -->
+    <!-- <node name= "node_ur5_sorter" pkg= "ur5_control" type="ur5_sorter.py" output="screen"/> -->
     
 </launch>

@@ -387,26 +387,21 @@ if __name__ == '__main__':
                               0.15, 0.15, 0.15)  # size
 
     req2 = create_cube_request(sdf_cube_green, "package_g2",
-                              -0.55, 0.35, 1.15,  # position 
+                              -0.55, 0.3, 1.15,  # position 
                               0.0, 0.0, 0.0,  # rotation
                               0.15, 0.15, 0.15)  # size
 
     req3 = create_cube_request(sdf_cube_blue, "package_b2",
-                              -0.55, -0.35, 1.15,  # position 
+                              -0.55, -0.3, 1.15,  # position 
                               0.0, 0.0, 0.1,  # rotation
                               0.15, 0.15, 0.15)  # size
 
     req4 = create_cube_request(sdf_cube_red, "package_r2",
-                              -0.75, 0.3, 1.15,  # position 
+                              -0.75, 0.25, 1.15,  # position 
                               0.0, 0.0, 0.79,  # rotation
                               0.15, 0.15, 0.15)  # size
 
-    req5 = create_cube_request(sdf_cube_green, "package_g1",
-                              -0.75, -0.3, 1.15,  # position 
-                              0.0, 0.0, 0.0,  # rotation
-                              0.15, 0.15, 0.15)  # size
-
-    req6 = create_cube_request(sdf_cube_blue, "package_b1",
+    req5 = create_cube_request(sdf_cube_blue, "package_b1",
                           -0.80, 0, 1.15,  # position 
                           0.0, 0.0, 0.79,  # rotation
                           0.15, 0.15, 0.15)  # size
@@ -421,11 +416,8 @@ if __name__ == '__main__':
     rospy.sleep(0.1)
     spawn_srv.call(req3)
 
-    rospy.sleep(0.1)
-    spawn_srv.call(req4)
+    # rospy.sleep(0.1)
+    # spawn_srv.call(req4)
 
     rospy.sleep(0.1)
     spawn_srv.call(req5)
-
-    rospy.sleep(0.1)
-    spawn_srv.call(req6)
