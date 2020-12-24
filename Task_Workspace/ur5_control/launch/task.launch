@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!-- 
+    Launch file for the task.
+ -->
 <launch>
 
     <!-- Launch Simulation Environment in Gazebo -->
@@ -15,7 +17,8 @@
         <arg name="rviz_config" value="$(find pkg_moveit_ur5_1)/launch/moveit.rviz"/>
     </include>
 
-    <!-- Spawn Boxes -->
+
+    <!-- Spawn boxes on the table -->
     <node name= "gazebo_spawn_models" pkg= "env_sim" type="gazebo_spawn_models.py"/>
 
     <!-- Add objects to Moveit! Planning Scene in RViz -->
@@ -23,6 +26,6 @@
     <node name = "moveit_publish_scene_from_text" pkg= "moveit_ros_planning" type = "moveit_publish_scene_from_text" args= "$(arg scene_file)"/>
 
     <!-- Run pick-place node -->
-    <!-- <node name= "node_ur5_sorter" pkg= "ur5_control" type="ur5_sorter.py" output="screen"/> -->
+    <node name= "node_ur5_sorter" pkg= "ur5_control" type="ur5_sorter.py" output="screen"/>
     
 </launch>

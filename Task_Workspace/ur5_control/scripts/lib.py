@@ -1,4 +1,13 @@
 #! usr/bin/env python
+'''
+Library of UR5-specific functions for MoveIt! and RViz Motion Planning.
+
+Contains:
+1) MoveIt! Parameters and Controllers for controlling the arm
+    a) Go to a specified pose
+    b) Go to specified join angles
+2) RViz Planning Scene controls for adding, attaching, detaching and removing objects from the Planning Scene
+'''
 
 import rospy
 import sys
@@ -7,10 +16,16 @@ import moveit_msgs.msg
 import actionlib
 import tf
 
-class UR5MoveIt:
 
-    # Constructor
+class UR5MoveIt:
+    '''
+    Class object for the UR5 arm.
+    '''
+
     def __init__(self):
+        '''
+        Constructor containing all essential assets for MoveIt! and RViz.
+        '''
 
         # Initialise the Node
         rospy.init_node('node_ur5', anonymous=True)
@@ -47,8 +62,16 @@ class UR5MoveIt:
 
         rospy.loginfo('\033[94m' + " >>> Ur5Moveit init done." + '\033[0m')
 
-    # Go to specified pose position and orientation
     def go_to_pose(self, arg_pose):
+        '''
+        Goes to a specified pose and orientation.
+
+        Parameters:
+            arg_pose (Pose object): The pose and orientation to execute planning towards.
+
+        Returns:
+            flag_plan (bool): Confirmation whether the planning and execution was successful or not.
+        '''
         # Get current pose values
         pose_values = self._group.get_current_pose().pose
         rospy.loginfo('\033[94m' + ">>> Current Pose:" + '\033[0m')
@@ -73,10 +96,18 @@ class UR5MoveIt:
             rospy.logerr(
                 '\033[94m' + ">>> go_to_pose() Failed. Solution for Pose not Found." + '\033[0m')
 
-        return flag_plan   
+        return flag_plan
 
-    # Go to specified joint angles
     def set_joint_angles(self, arg_list_joint_angles):
+        '''
+        Goes to specified joint angles.
+
+        Parameters:
+            arg_list_joint_angles (float[]): A list of joint angles in radians to plan towards.
+
+        Returns:
+            flag_plan (bool): Confirmation whether the planning and execution was successful or not.
+        '''
 
         list_joint_values = self._group.get_current_joint_values()
         rospy.loginfo('\033[94m' + ">>> Current Joint Values:" + '\033[0m')
@@ -103,29 +134,53 @@ class UR5MoveIt:
 
         return flag_plan
 
-    # Adds box to world
     def add_box(self, box_name, box_length, box_pose):
-        self._scene.add_box(box_name, 
-                            box_pose, 
+        '''
+        Adds a box to the RViz planning scene.
+
+        Parameters:
+            box_name (str): The name to be assigned to the box.
+            box_length (float): The size of the box.
+            box_pose (PoseStamped object): The pose and orientation of the box.
+        '''
+        self._scene.add_box(box_name,
+                            box_pose,
                             size=(box_length, box_length, box_length))
 
-    # Attaches box to robot
     def attach_box(self, box_name):
-        self._scene.attach_box(self._eef_link, 
-                               box_name, 
+        '''
+        Attaches the specified object(box) to the robot hand.
+
+        Parameters:
+            box_name (str): The name of the box in the RViz Planning Scene te be attached.
+        '''
+        self._scene.attach_box(self._eef_link,  # The end-effector link
+                               box_name,
                                touch_links=self._touch_links)
 
-    # Detaches box from robot
     def detach_box(self, box_name):
-        self._scene.remove_attached_object(self._eef_link, 
+        '''
+        Detaches the specified object(box) from the robot hand.
+
+        Parameters:
+            box_name (str): The name of the box in the RViz Planning Scene te be detached.
+        '''
+        self._scene.remove_attached_object(self._eef_link,  # The end-effector link
                                            name=box_name)
 
-    # Removes box from world
     def remove_box(self, box_name):
+        '''
+        Removes the specified object(box) from the RViz Planning Scene.
+
+        Parameters:
+            box_name (str): The name of the box to be removed.
+        '''
         self._scene.remove_world_object(box_name)
-    
-    # Destructor
+
     def __del__(self):
+        '''
+        Destructor for the class object.
+        '''
         moveit_commander.roscpp_shutdown()
         rospy.loginfo(
             '\033[94m' + "Object of class Ur5Moveit Deleted." + '\033[0m')

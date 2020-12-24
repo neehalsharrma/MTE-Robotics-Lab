@@ -1,4 +1,7 @@
 #! /usr/bin/env python
+'''
+ROS Script to sort Red, Green and Blue objects on a table into bins.
+'''
 
 import rospy
 import geometry_msgs.msg
@@ -9,8 +12,8 @@ from rospy.exceptions import ROSInterruptException
 from lib import UR5MoveIt
 
 MasterString = ''  # String to store model names from camera_callback()
-CompletionList = '' # String to store names of completed models
-ReadyFlag = True # Flag to indicate ready state of robot
+ReadyFlag = True  # Flag to indicate ready state of robot
+
 
 def env_data():
     '''
@@ -19,7 +22,7 @@ def env_data():
     2. Box Size
 
     Returns:
-        All environment-specific data.
+        (list) All environment-specific data.
     '''
     box_length = 0.15  # Length of the box
     vacuum_gripper_width = 0.117  # Vacuum Gripper Width
@@ -38,7 +41,7 @@ def joint_angles_data():
     4. Blue Bin: Blue Bin to place Blue packages
 
     Returns: 
-        Joint angles for all positions when called.
+        (list) Joint angles for all positions when called.
     '''
     # Home/Ready angles for picking
     home_joint_angles = [radians(0),
@@ -81,12 +84,12 @@ def joint_angles_data():
 
 def camera_callback(msg_camera):
     '''
-    Callback function for Conveyor Logical Camera Subscriber
+    Callback function for Conveyor Logical Camera Subscriber.
 
     Parameters:
-        msg_camera (LogicalCameraImage): Data about all the objects detected by the Logical Camera.
+        msg_camera (LogicalCameraImage object): Data about all the objects detected by the Logical Camera.
     '''
-    global MasterString, CompletionList, ReadyFlag
+    global MasterString, ReadyFlag
 
     if(ReadyFlag):
         for i in range(0, len(msg_camera.models)):
@@ -94,11 +97,13 @@ def camera_callback(msg_camera):
         model_list = MasterString.split(' ')
 
         for i in model_list:
-            if('package' in i and i not in CompletionList): 
+            if('package' in i):
                 MasterString = i
                 break
-        
-    else: MasterString = ''
+
+    else:
+        MasterString = ''
+
 
 def pose_set(trans, rot):
     '''
@@ -111,13 +116,14 @@ def pose_set(trans, rot):
     Returns:
         pose (geometry_msgs.msg.PoseStamped() object): The complete pose with values.
     '''
-    # If you want to override any values, use this
+    # If you want to override any specific values received, use this
     override = [trans, [-0.5, -0.5, 0.5, 0.5]]
     if(override != []):
         trans = override[0]
         rot = override[1]
         print(override)
 
+    # Generating the object
     pose = geometry_msgs.msg.PoseStamped()
     pose.header.frame_id = 'world'
     pose.pose.position.x = trans[0]
@@ -147,23 +153,22 @@ def box_plan(box_name, box_length, vacuum_gripper_width):
             # Obtaining the TF transform of the box
             if('1' in box_name):
                 (box_trans, box_rot) = ur5.tf_listener.lookupTransform("/world",
-                                                                    "/logical_camera_2_package_r1_frame",
-                                                                    rospy.Time(0))
+                                                                       "/logical_camera_2_package_r1_frame",
+                                                                       rospy.Time(0))
             else:
                 (box_trans, box_rot) = ur5.tf_listener.lookupTransform("/world",
-                                                                    "/logical_camera_2_package_r2_frame",
-                                                                    rospy.Time(0))
+                                                                       "/logical_camera_2_package_r2_frame",
+                                                                       rospy.Time(0))
             # Execute pick operation
             box_pose = pose_set(box_trans, box_rot)  # Collating pose values
             box_pose.pose.position.z = box_pose.pose.position.z + delta  # Adding Z Offset
-            print(box_pose)
             ur5.go_to_pose(box_pose)
             # Activate Vacuum Gripper
             os.system(
                 'rosservice call /mte_roblab/ur5_1/activate_vacuum_gripper "activate_vacuum_gripper: true"\n')
             # Add the Red box to the planning scene
-            # box_pose.pose.position.z = box_pose.pose.position.z - delta  # Removing Z Offset
-            # ur5.add_box(box_name, box_length, box_pose)
+            box_pose.pose.position.z = box_pose.pose.position.z - delta  # Removing Z Offset
+            ur5.add_box(box_name, box_length, box_pose)
             ur5.attach_box(box_name)
             # Log the operation
             rospy.loginfo(
@@ -171,12 +176,12 @@ def box_plan(box_name, box_length, vacuum_gripper_width):
         elif('Green' in box_name):  # Green box detected
             if('1' in box_name):
                 (box_trans, box_rot) = ur5.tf_listener.lookupTransform("/world",
-                                                                    "/logical_camera_2_package_g1_frame",
-                                                                    rospy.Time(0))            
+                                                                       "/logical_camera_2_package_g1_frame",
+                                                                       rospy.Time(0))
             else:
                 (box_trans, box_rot) = ur5.tf_listener.lookupTransform("/world",
-                                                                    "/logical_camera_2_package_g2_frame",
-                                                                    rospy.Time(0))
+                                                                       "/logical_camera_2_package_g2_frame",
+                                                                       rospy.Time(0))
 
             box_pose = pose_set(box_trans, box_rot)
             box_pose.pose.position.z = box_pose.pose.position.z + delta
@@ -184,19 +189,19 @@ def box_plan(box_name, box_length, vacuum_gripper_width):
             os.system(
                 'rosservice call /mte_roblab/ur5_1/activate_vacuum_gripper "activate_vacuum_gripper: true"\n')
             box_pose.pose.position.z = box_pose.pose.position.z - delta
-            # ur5.add_box(box_name, box_length, box_pose)
+            ur5.add_box(box_name, box_length, box_pose)
             ur5.attach_box(box_name)
             rospy.loginfo(
                 '\033[92m' + "Green Package Picked!" + '\033[0m')
         elif('Blue' in box_name):  # Blue box detected
             if('1' in box_name):
                 (box_trans, box_rot) = ur5.tf_listener.lookupTransform("/world",
-                                                                    "/logical_camera_2_package_b1_frame",
-                                                                    rospy.Time(0))
+                                                                       "/logical_camera_2_package_b1_frame",
+                                                                       rospy.Time(0))
             else:
                 (box_trans, box_rot) = ur5.tf_listener.lookupTransform("/world",
-                                                                    "/logical_camera_2_package_b2_frame",
-                                                                    rospy.Time(0))
+                                                                       "/logical_camera_2_package_b2_frame",
+                                                                       rospy.Time(0))
 
             box_pose = pose_set(box_trans, box_rot)
             box_pose.pose.position.z = box_pose.pose.position.z + delta
@@ -204,12 +209,12 @@ def box_plan(box_name, box_length, vacuum_gripper_width):
             os.system(
                 'rosservice call /mte_roblab/ur5_1/activate_vacuum_gripper "activate_vacuum_gripper: true"\n')
             box_pose.pose.position.z = box_pose.pose.position.z - delta
-            # ur5.add_box(box_name, box_length, box_pose)
+            ur5.add_box(box_name, box_length, box_pose)
             ur5.attach_box(box_name)
             rospy.loginfo(
                 '\033[94m' + "Blue Package Picked!" + '\033[0m')
     except:
-        return
+        pass
 
 
 def bin_plan(box_name, bin_name, bin_joint_angles):
@@ -256,7 +261,7 @@ def subscriber_init():
     '''
     # Subscriber for Table Logical Camera
     rospy.Subscriber('/mte_roblab/logical_camera_2',
-                    LogicalCameraImage,
+                     LogicalCameraImage,
                      camera_callback)
 
 
@@ -264,124 +269,51 @@ def controller():
     '''
     Executes the main operations.
     '''
-    global MasterString, CompletionList, ReadyFlag
+    global MasterString, ReadyFlag
 
     # Go to a home position in preparation for picking up the packages
     ur5.set_joint_angles(joint_angles[0])
 
     # Execute box-bin planning
     while(not rospy.is_shutdown()):
-        if('r' in MasterString): # Detecting Red package
-            ReadyFlag = False # Operating
-            CompletionList = CompletionList + ' ' + MasterString # Adding to Completion List
-            if('1' in MasterString): # Detecting the specific model    
-                box_plan('Red Box 1', env_values[0], env_values[1]) # Pick operation
-                bin_plan('Red Box 1', 'R', joint_angles[1]) # Place operation
+        if('package_r' in MasterString):  # Detecting Red package
+            ReadyFlag = False  # Operating
+            if('1' in MasterString):  # Detecting the specific model
+                # Pick operation
+                box_plan('Red Box 1', env_values[0], env_values[1])
+                bin_plan('Red Box 1', 'R', joint_angles[1])  # Place operation
             else:
-                box_plan('Red Box 2', env_values[0], env_values[1]) # Pick operation
-                bin_plan('Red Box 2', 'R', joint_angles[1]) # Place operation
-        elif('g' in MasterString):
+                # Pick operation
+                box_plan('Red Box 2', env_values[0], env_values[1])
+                bin_plan('Red Box 2', 'R', joint_angles[1])  # Place operation
+            ReadyFlag = True  # Ready for next operation
+        elif('package_g' in MasterString):
             ReadyFlag = False
-            CompletionList = CompletionList + ' ' + MasterString
             if('1' in MasterString):
                 box_plan('Green Box 1', env_values[0], env_values[1])
                 bin_plan('Green Box 1', 'G', joint_angles[2])
             else:
                 box_plan('Green Box 2', env_values[0], env_values[1])
                 bin_plan('Green Box 2', 'G', joint_angles[2])
-        elif('b' in MasterString):
+            ReadyFlag = True
+        elif('package_b' in MasterString):
             ReadyFlag = False
-            CompletionList = CompletionList + ' ' + MasterString
             if('1' in MasterString):
                 box_plan('Blue Box 1', env_values[0], env_values[1])
                 bin_plan('Blue Box 1', 'B', joint_angles[3])
             else:
                 box_plan('Blue Box 2', env_values[0], env_values[1])
                 bin_plan('Blue Box 2', 'B', joint_angles[3])
-        
+            ReadyFlag = True
+
         ur5.set_joint_angles(joint_angles[0])
-        ReadyFlag = True # Ready for next operation
 
-def control():
-    ur5.set_joint_angles(joint_angles[0])
-
-    ur5.set_joint_angles([radians(10),
-                        radians(-104),
-                        radians(-101),
-                        radians(-65),
-                        radians(90),
-                        radians(0)])
-    ur5.attach_box('Red Box 1')
-    os.system(
-            'rosservice call /mte_roblab/ur5_1/activate_vacuum_gripper "activate_vacuum_gripper: true"\n')
-    rospy.loginfo(
-                '\033[91m' + "Red Package Picked!" + '\033[0m')
-    bin_plan('Red Box 1', 'R', joint_angles[1])
-
-    ur5.set_joint_angles(joint_angles[0])
-    ur5.set_joint_angles([radians(-18),
-                        radians(-112),
-                        radians(-90),
-                        radians(-68),
-                        radians(90),
-                        radians(0)])    
-    ur5.attach_box('Green Box 2')
-    os.system(
-            'rosservice call /mte_roblab/ur5_1/activate_vacuum_gripper "activate_vacuum_gripper: true"\n')
-    rospy.loginfo(
-                '\033[92m' + "Green Package Picked!" + '\033[0m')
-    bin_plan('Green Box 2', 'G', joint_angles[2])
-
-    ur5.set_joint_angles(joint_angles[0])
-    ur5.set_joint_angles([radians(39),
-                        radians(-112),
-                        radians(-90),
-                        radians(-68),
-                        radians(90),
-                        radians(0)])
-    ur5.attach_box('Blue Box 2')
-    os.system(
-            'rosservice call /mte_roblab/ur5_1/activate_vacuum_gripper "activate_vacuum_gripper: true"\n')
-    rospy.loginfo(
-                '\033[94m' + "Blue Package Picked!" + '\033[0m')
-    bin_plan('Blue Box 2', 'B', joint_angles[3])
-
-    ur5.set_joint_angles(joint_angles[0])
-    ur5.set_joint_angles([radians(-10),
-                        radians(-134),
-                        radians(-55),
-                        radians(-81),
-                        radians(90),
-                        radians(0)])
-    
-    ur5.attach_box('Red Box 2')
-    os.system(
-            'rosservice call /mte_roblab/ur5_1/activate_vacuum_gripper "activate_vacuum_gripper: true"\n')
-    rospy.loginfo(
-                '\033[91m' + "Red Package Picked!" + '\033[0m')
-    bin_plan('Red Box 2', 'R', joint_angles[1])
-    
-    ur5.set_joint_angles(joint_angles[0])
-    ur5.set_joint_angles([radians(8),
-                        radians(-135),
-                        radians(-52),
-                        radians(-82),
-                        radians(90),
-                        radians(0)])
-    ur5.attach_box('Blue Box 1')
-    os.system(
-            'rosservice call /mte_roblab/ur5_1/activate_vacuum_gripper "activate_vacuum_gripper: true"\n')
-    rospy.loginfo(
-                '\033[94m' + "Blue Package Picked!" + '\033[0m')
-    bin_plan('Blue Box 1', 'B', joint_angles[3])
-
-    ur5.set_joint_angles(joint_angles[0])
 
 if __name__ == "__main__":
     '''
     Controls overall execution
     '''
-    ur5 = UR5MoveIt()
+    ur5 = UR5MoveIt() # Initialise class object node
 
     # Obtain prerequisite data
     joint_angles = joint_angles_data()
@@ -391,5 +323,4 @@ if __name__ == "__main__":
     subscriber_init()
 
     # Start execution
-    # controller()
-    control()
+    controller()

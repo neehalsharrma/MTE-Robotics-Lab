@@ -3,7 +3,7 @@ config_vacuum_gripper:
   vacuum_gripper_model_name: "ur5_1"
   vacuum_gripper_link_name: "vacuum_gripper_link"
   
-  # attachable_object_model_name: "package_mumbai"
+  # Attachable_object_model_name: "package_mumbai"
   attachable_object_link_name: "link"
 
   attachable_object_prefix: "package"

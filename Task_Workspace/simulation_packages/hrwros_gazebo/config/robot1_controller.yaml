@@ -1,0 +1,28 @@
+robot1_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+     - robot1_elbow_joint
+     - robot1_shoulder_lift_joint
+     - robot1_shoulder_pan_joint
+     - robot1_wrist_1_joint
+     - robot1_wrist_2_joint
+     - robot1_wrist_3_joint
+  gains:
+      robot1_elbow_joint: {p: 50000, d: 150, i: 1, i_clamp: 25}
+      robot1_shoulder_lift_joint: {p: 80000, d: 100, i: 1, i_clamp: 50}
+      robot1_shoulder_pan_joint: {p: 17000, d: 30, i: 0, i_clamp: 1}
+      robot1_wrist_1_joint: {p: 150, d: 5, i: 0, i_clamp: 1}
+      robot1_wrist_2_joint: {p: 75, d: 2, i: 0, i_clamp: 1}
+      robot1_wrist_3_joint: {p: 50, d: 5, i: 0, i_clamp: 1}
+  constraints:
+      goal_time: 5.0
+      stopped_velocity_tolerance: 3.0
+      robot1_shoulder_pan_joint: {trajectory: &trajectory_pos_constraint 0.2, goal:  &goal_pos_constraint 0.1}
+      robot1_shoulder_lift_joint: {trajectory: *trajectory_pos_constraint, goal: *goal_pos_constraint}
+      robot1_elbow_joint: {trajectory: *trajectory_pos_constraint, goal: *goal_pos_constraint}
+      robot1_wrist_1_joint: {trajectory: *trajectory_pos_constraint, goal: *goal_pos_constraint}
+      robot1_wrist_2_joint: {trajectory: *trajectory_pos_constraint, goal: *goal_pos_constraint}
+      robot1_wrist_3_joint: {trajectory: *trajectory_pos_constraint, goal: *goal_pos_constraint}
+  stop_trajectory_duration: 0.5
+  state_publish_rate:  50
+  action_monitor_rate: 10
