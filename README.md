@@ -38,8 +38,15 @@ The RViz Planning Scene contains the following objects:
 The bins and logical camera were deemed non-essential to motion-planning requirements through observation, and have thus not been included.
 ## Setting up TF
 TF ('TransForm') is the primary method for objects as detected through the logical camera to be visualised as frames and acted upon in and using RViz. The logical camera visualises the frames of the boxes in the RViz Planning Scene; this information can then be used to direct the UR5 to travel to the specified pose (the position of the specified box) for executing the pick operation.
+
+The following process was implemented in this submission:
+* Use the Logical Camera to detect the boxes, extracting the list of the names of the models detected.
+* Determine which models contain `package` in their name, indicating that these models are the boxes to be picked.
+* Feed the colours, poses and orientations of the boxes one by one to the UR5, which will then perform the corresponding pick-place operation.
 ## ROS Scripting
-The ROS Scripting oversees the whole setup and manages the interconnectivity of the various communicating nodes in the setup. ROS Scripting covers the following aspects in this submission:
+The ROS Scripting oversees the whole setup and manages the interconnectivity of the various communicating nodes in the setup. 
+
+ROS Scripting covers the following aspects in this submission:
 * Spawning the Gazebo, MoveIt!, RViz setups together through a ROSLaunch file;
 * Handling the UR5 node, the primary node used to control the UR5 used in this task; and
 * Handling TF data from the logical camera and feeding the corresponding actions to the UR5.
