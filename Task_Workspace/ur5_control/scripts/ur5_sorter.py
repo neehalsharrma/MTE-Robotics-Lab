@@ -6,6 +6,8 @@ from math import radians
 from rospy.exceptions import ROSInterruptException
 from lib import UR5MoveIt
 
+MasterString = '' # String to store model names from camera_callback()
+
 def env_data():
     '''
     Data of all environment-specific parameters:
@@ -35,9 +37,9 @@ def joint_angles_data():
     '''
     # Home/Ready angles for picking
     home_joint_angles = [radians(180),
-                        radians(-75),
-                        radians(110),
-                        radians(-125),
+                        radians(-90),
+                        radians(90),
+                        radians(-90),
                         radians(-90),
                         radians(0)]
 
@@ -78,7 +80,7 @@ def camera_callback(msg_camera):
     Parameters:
         msg_camera (LogicalCameraImage): Data about all the objects detected by the Logical Camera.
     '''
-    pass
+    global MasterString
 
 def pose_set(trans, rot):
     '''
@@ -225,6 +227,8 @@ def controller():
     '''
     Executes the main operations.
     '''
+    global MasterString
+    
     # Go to a home position in preparation for picking up the packages
     ur5.set_joint_angles(joint_angles[0])
 

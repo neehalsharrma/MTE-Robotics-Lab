@@ -14,4 +14,15 @@
     <include file="$(find pkg_moveit_ur5_1)/launch/moveit_rviz.launch" if="$(arg use_rviz)">
         <arg name="rviz_config" value="$(find pkg_moveit_ur5_1)/launch/moveit.rviz"/>
     </include>
+
+    <!-- Spawn Boxes -->
+    <node name= "gazebo_spawn_models" pkg= "env_sim" type="gazebo_spawn_models.py"/>
+
+    <!-- Add objects to Moveit! Planning Scene in RViz -->
+    <arg name="scene_file" default="$(find ur5_control)/config/rviz/task.scene"/>
+    <node name = "moveit_publish_scene_from_text" pkg= "moveit_ros_planning" type = "moveit_publish_scene_from_text" args= "$(arg scene_file)"/>
+
+    <!-- Run pick-place node -->
+    <!-- <node name= "node_ur5_sorter" pkg= "pkg_task3" type="ur5_sorter.py" output="screen"/> -->
+    
 </launch>
